@@ -21,15 +21,12 @@ cask "calenbar" do
   # The DMG installs to /Applications or ~/Applications and the app updates itself, so a brew install
   # on top of that would only create a second copy. Stop before doing anything if one exists.
   preflight_steps do
-    existing = ["/Applications/Calenbar.app", "#{Dir.home}/Applications/Calenbar.app"].select do |path|
-      File.exist?(path)
+    # Homebrew already refuses to overwrite /Applications/Calenbar.app; a copy in ~/Applications (where the
+    # app moves itself on first launch) would otherwise end up duplicated. Fail the install instead.
+    if_path_exists "#{Dir.home}/Applications/Calenbar.app" do
+      run "/bin/sh", args: ["-c", "echo 'Calenbar is already installed in ~/Applications and updates itself. " \
+                                  "Move it to the Trash first to manage it with Homebrew.' >&2; exit 1"]
     end
-    next if existing.empty?
-
-    raise CaskError, <<~EOS
-      Calenbar is already installed at #{existing.join(" and ")}, and that copy updates itself.
-      To manage it with Homebrew instead, move it to the Trash first and run this install again.
-    EOS
   end
 
   zap trash: [
