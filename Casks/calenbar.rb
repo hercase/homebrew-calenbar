@@ -16,10 +16,14 @@ cask "calenbar" do
   auto_updates true
   depends_on macos: :sonoma
 
+  app "Calenbar.app"
+
   # The DMG installs to /Applications or ~/Applications and the app updates itself, so a brew install
   # on top of that would only create a second copy. Stop before doing anything if one exists.
   preflight do
-    existing = ["/Applications/Calenbar.app", "#{Dir.home}/Applications/Calenbar.app"].select { |path| File.exist?(path) }
+    existing = ["/Applications/Calenbar.app", "#{Dir.home}/Applications/Calenbar.app"].select do |path|
+      File.exist?(path)
+    end
     next if existing.empty?
 
     raise CaskError, <<~EOS
@@ -27,8 +31,6 @@ cask "calenbar" do
       To manage it with Homebrew instead, move it to the Trash first and run this install again.
     EOS
   end
-
-  app "Calenbar.app"
 
   zap trash: [
     "~/Library/Caches/com.hernancase.calenbar",
