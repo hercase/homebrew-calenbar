@@ -20,7 +20,7 @@ cask "calenbar" do
 
   # The DMG installs to /Applications or ~/Applications and the app updates itself, so a brew install
   # on top of that would only create a second copy. Stop before doing anything if one exists.
-  preflight do
+  preflight_steps do
     existing = ["/Applications/Calenbar.app", "#{Dir.home}/Applications/Calenbar.app"].select do |path|
       File.exist?(path)
     end
