@@ -1,6 +1,6 @@
 cask "calenbar" do
-  version "0.6.0"
-  sha256 "d84e793cdd0289f2fd6d32f972201127cf8a4d5fa86774e1801877986bbb1f28"
+  version "0.6.1"
+  sha256 "38c4a3a8b9842fe27d49cfc3dd2938858a1634215ad49d8c099a162092dd36d4"
 
   url "https://github.com/hercase/calenbar/releases/download/v#{version}/Calenbar-#{version}.dmg"
   name "Calenbar"
